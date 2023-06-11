@@ -6,8 +6,10 @@ import {
   Delete,
   Body,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateNoteDto, UpdateNoteDto } from './dto/notes.dto';
 
 @Controller('notes')
@@ -15,11 +17,13 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() createNoteDto: CreateNoteDto) {
     return this.notesService.create(createNoteDto);
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.notesService.findAll();
   }
