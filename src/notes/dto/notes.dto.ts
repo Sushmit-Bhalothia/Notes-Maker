@@ -4,6 +4,5 @@ export class CreateNoteDto {
 }
 
 export class UpdateNoteDto {
-  readonly title?: string;
-  readonly content?: string;
+  [key: string]: any;
 }

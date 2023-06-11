@@ -2,7 +2,15 @@ import { Injectable } from '@nestjs/common';
 // import * as admin from 'firebase-admin';
 import { firestore } from '../../firebase.config';
 import { CreateNoteDto, UpdateNoteDto } from './dto/notes.dto';
-import { doc, collection, addDoc, getDocs, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 
 @Injectable()
 export class NotesService {
@@ -67,12 +75,16 @@ export class NotesService {
     //   .collection('notes')
     //   .doc(id)
     //   .update({ ...updateNoteDto });
+    const noteRef = doc(firestore, 'notes', id);
+    await updateDoc(noteRef, updateNoteDto);
     return { id };
   }
 
   async remove(id: string): Promise<any> {
     // const db = admin.firestore();
     // await db.collection('notes').doc(id).delete();
+    const noteRef = doc(firestore, 'notes', id);
+    await deleteDoc(noteRef);
     return { id };
   }
 }
