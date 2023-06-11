@@ -1,14 +1,30 @@
 import { Injectable } from '@nestjs/common';
 // import * as admin from 'firebase-admin';
+import { firestore } from '../../firebase.config';
 import { CreateNoteDto, UpdateNoteDto } from './dto/notes.dto';
+import { doc, collection, addDoc, getDocs, getDoc } from 'firebase/firestore';
 
 @Injectable()
 export class NotesService {
+  private notesCollection = collection(firestore, 'notes');
   async create(createNoteDto: CreateNoteDto): Promise<any> {
     //const db = admin.firestore();
     //const note = await db.collection('notes').add(createNoteDto);
     // return { id: note.id };
-    return { id: 'sushmit' };
+    // this.notes.push(createNoteDto);
+    // return { id: 'sushmit' };
+    // const newNoteRef =  addDoc(collection(firestore, "notes")),{
+    //     createNoteDto
+    // }
+    // const newNote = { ...createNoteDto, id: newNoteRef.id };
+    // await newNoteRef.set(newNote);
+    // return newNote;
+    const newNoteRef = await addDoc(
+      collection(firestore, 'notes'),
+      createNoteDto,
+    );
+    const newNote = { ...createNoteDto, id: newNoteRef.id };
+    return newNote;
   }
 
   async findAll(): Promise<any[]> {
@@ -18,7 +34,14 @@ export class NotesService {
     //   id: doc.id,
     //   ...doc.data(),
     // }));
-    return [{ id: 'ram' }];
+    //return [{ id: 'ram' }];
+    // return this.notes;
+    const querySnapshot = await getDocs(collection(firestore, 'notes'));
+    const notes = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return notes;
   }
 
   async findOne(id: string): Promise<any> {
@@ -28,6 +51,13 @@ export class NotesService {
     // if (doc.exists) {
     //   return { id: doc.id, ...doc.data() };
     // }
+    const noteRef = doc(firestore, 'notes', id);
+    const noteSnapshot = await getDoc(noteRef);
+
+    if (noteSnapshot.exists()) {
+      return { id: noteSnapshot.id, ...noteSnapshot.data() };
+    }
+
     return null;
   }
 
