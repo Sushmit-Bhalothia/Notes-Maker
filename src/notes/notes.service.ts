@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 // import * as admin from 'firebase-admin';
 import { firestore } from '../../firebase.config';
+import { RabbitMQService } from './rabbitmq.service';
 import { CreateNoteDto, UpdateNoteDto } from './dto/notes.dto';
 import {
   doc,
@@ -15,6 +16,7 @@ import {
 @Injectable()
 export class NotesService {
   private notesCollection = collection(firestore, 'notes');
+  constructor(private readonly rabbitMQService: RabbitMQService) {}
   async create(createNoteDto: CreateNoteDto): Promise<any> {
     //const db = admin.firestore();
     //const note = await db.collection('notes').add(createNoteDto);
@@ -32,6 +34,7 @@ export class NotesService {
       createNoteDto,
     );
     const newNote = { ...createNoteDto, id: newNoteRef.id };
+    await this.rabbitMQService.sendToQueue('notes', 'New note created');
     return newNote;
   }
 
@@ -63,6 +66,7 @@ export class NotesService {
     const noteSnapshot = await getDoc(noteRef);
 
     if (noteSnapshot.exists()) {
+      await this.rabbitMQService.sendToQueue('notes', 'Find one note');
       return { id: noteSnapshot.id, ...noteSnapshot.data() };
     }
 
@@ -79,6 +83,7 @@ export class NotesService {
     await updateDoc(noteRef, {
       ...updateNoteDto,
     });
+    await this.rabbitMQService.sendToQueue('notes', 'Note updated');
   }
 
   async remove(id: string): Promise<any> {
@@ -86,6 +91,7 @@ export class NotesService {
     // await db.collection('notes').doc(id).delete();
     const noteRef = doc(firestore, 'notes', id);
     await deleteDoc(noteRef);
+    await this.rabbitMQService.sendToQueue('notes', 'Note deleted');
     return { id };
   }
 }

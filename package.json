@@ -26,6 +26,7 @@
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "amqplib": "^0.10.3",
     "class-validator": "^0.14.0",
     "firebase": "^9.22.2",
     "firebase-admin": "^11.9.0",
