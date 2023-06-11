@@ -76,8 +76,9 @@ export class NotesService {
     //   .doc(id)
     //   .update({ ...updateNoteDto });
     const noteRef = doc(firestore, 'notes', id);
-    await updateDoc(noteRef, updateNoteDto);
-    return { id };
+    await updateDoc(noteRef, {
+      ...updateNoteDto,
+    });
   }
 
   async remove(id: string): Promise<any> {
