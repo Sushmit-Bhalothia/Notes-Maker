@@ -1,73 +1,54 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Project Notes-Api
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a backend API project built with Nest.js and follows a microservices architecture. It uses Google Firebase as the backend service for and data storage and JWT tokens for authentication .
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Prerequisites
 
-## Description
+Before running the project, make sure you have the following dependencies installed on your machine:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node.js
+- RabbitMQ
+- Sentry account
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. Clone the repository:
 
-## Running the app
+   ```bash
+   git clone https://github.com/Sushmit-Bhalothia/Notes-Maker
+   ```
 
-```bash
-# development
-$ npm run start
+2. Install the dependencies:
 
-# watch mode
-$ npm run start:dev
+   ```bash
+   cd Notes-Maker
+   npm install
+   ```
 
-# production mode
-$ npm run start:prod
-```
+3. Configuration:
 
-## Test
+   - Update the environment variables in the `.env` file according to your setup. This should include the Firebase configuration, such as the API key, project ID, and other necessary credentials.
 
-```bash
-# unit tests
-$ npm run test
+4. make sure to start the rabbitmq services by the following command
+   brew services start rabbitmq
 
-# e2e tests
-$ npm run test:e2e
+5. Start the microservices:
 
-# test coverage
-$ npm run test:cov
-```
+   ```bash
+   npm run start
 
-## Support
+   ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   or
 
-## Stay in touch
+   ```bash
+   npm run start:dev
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   ```
 
-## License
+6. Running the project:
+   Make requests to the API using tools like Postman or other applications. Alternatively, you can use the online platform, ReqBin, to send requests.
 
-Nest is [MIT licensed](LICENSE).
+Before making requests, you need to authenticate and generate JWT tokens. Currently, authentication is implemented using static users. There are four predefined users available. To generate JWT tokens, use the specific email and password corresponding to each user.
+
+Once you have obtained the tokens, you can use them to access the notes in the database. You can perform operations like updating or deleting the notes.
